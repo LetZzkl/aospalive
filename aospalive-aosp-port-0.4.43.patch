@@ -1,0 +1,1157 @@
+diff --git a/app/AndroidManifest.xml b/app/AndroidManifest.xml
+index c769f0a..6729930 100644
+--- a/app/AndroidManifest.xml
++++ b/app/AndroidManifest.xml
+@@ -1,4 +1,4 @@
+-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.aliveclean" android:versionCode="57" android:versionName="0.4.41-preview">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.aliveclean" android:versionCode="59" android:versionName="0.4.43-aosp">
+   <uses-sdk android:minSdkVersion="28" android:targetSdkVersion="35"/>
+   <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+   <uses-permission android:name="android.permission.AMBIENT_WALLPAPER"/>
+@@ -12,12 +12,6 @@
+     <package android:name="com.google.android.apps.wallpaper"/>
+     <package android:name="com.android.wallpaper"/>
+     <package android:name="com.android.thememanager"/>
+-    <package android:name="com.miui.miwallpaper.earth"/>
+-    <package android:name="com.miui.miwallpaper.moon"/>
+-    <package android:name="com.miui.miwallpaper.mars"/>
+-    <package android:name="com.miui.miwallpaper.saturn"/>
+-    <package android:name="com.miui.miwallpaper.snowmountain"/>
+-    <package android:name="com.miui.miwallpaper.geometry"/>
+ 
+     <package android:name="com.android.systemui"/>
+     <package android:name="com.oplus.wallpapers"/>
+@@ -30,38 +24,26 @@
+     <intent><action android:name="android.intent.action.PICK"/><data android:mimeType="video/*"/></intent>
+     <intent><action android:name="android.intent.action.OPEN_DOCUMENT"/><data android:mimeType="image/*"/></intent>
+   </queries>
+-  <application android:label="OpenAlive" android:icon="@drawable/icon" android:theme="@android:style/Theme.Material.NoActionBar" android:allowBackup="false" android:extractNativeLibs="true" android:supportsRtl="true" android:forceQueryable="true">
++  <application android:label="aospalive" android:icon="@drawable/icon" android:theme="@android:style/Theme.Material.NoActionBar" android:allowBackup="false" android:extractNativeLibs="true" android:supportsRtl="true" android:forceQueryable="true">
+     <meta-data android:name="xposedmodule" android:value="true"/>
+     <meta-data android:name="xposedminversion" android:value="82"/>
+-    <meta-data android:name="xposeddescription" android:value="OpenAlive · 当前壁纸的 ColorOS AOD 适配"/>
++    <meta-data android:name="xposeddescription" android:value="aospalive · 类原生 ROM 的 Alive 壁纸与息屏适配"/>
+     <meta-data android:name="xposedscope" android:resource="@array/xposed_scope"/>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiLibraryActivity" android:exported="false"/>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiDesktopSettingsActivity" android:exported="false"/>
+-    <provider android:name=".XiaomiState" android:authorities="org.aliveclean.xiaomi" android:exported="false"/>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Earth" android:process=":xiaomi_preview_earth" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Earth" android:process=":xiaomi_earth" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Moon" android:process=":xiaomi_preview_moon" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Moon" android:process=":xiaomi_moon" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Mars" android:process=":xiaomi_preview_mars" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Mars" android:process=":xiaomi_mars" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Saturn" android:process=":xiaomi_preview_saturn" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Saturn" android:process=":xiaomi_saturn" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Snowmountain" android:process=":xiaomi_preview_snowmountain" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Snowmountain" android:process=":xiaomi_snowmountain" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".XiaomiPreviewActivity$Geometry" android:process=":xiaomi_preview_geometry" android:exported="false" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode" android:launchMode="singleTop" android:theme="@android:style/Theme.Material.NoActionBar"/>
+-    <service android:name=".XiaomiWallpaper$Geometry" android:process=":xiaomi_geometry" android:exported="true" android:permission="android.permission.BIND_WALLPAPER"><intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter><meta-data android:name="android.service.wallpaper" android:resource="@xml/xiaomi_wallpaper"/></service>
+-    <activity android:screenOrientation="portrait" android:name=".VivoLibraryActivity" android:exported="false" android:theme="@style/Theme.Clean.Editor" />
+-        <activity android:screenOrientation="portrait" android:name=".VivoEditorActivity" android:exported="false" android:theme="@style/Theme.Clean.Editor" />
+         <activity android:screenOrientation="portrait" android:name=".HomeActivity" android:exported="true">
+       <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+     </activity>
+     <activity android:screenOrientation="portrait" android:name=".DynamicLibraryActivity" android:exported="false"/>
+     <activity android:screenOrientation="portrait" android:name=".NotificationSettingsActivity" android:exported="false"/>
+     <activity android:screenOrientation="portrait" android:name=".MainActivity" android:exported="true" android:theme="@style/Theme.Clean.Editor"/>
++    <activity android:screenOrientation="portrait" android:name=".FallbackHome" android:exported="false"/>
+     <activity android:screenOrientation="portrait" android:name=".FrameCropActivity" android:exported="false" android:theme="@android:style/Theme.Material.NoActionBar"/>
+     <activity android:screenOrientation="portrait" android:name=".PhotoCropActivity" android:exported="false" android:theme="@android:style/Theme.Material.NoActionBar"/>
+     <provider android:name=".SceneProvider" android:authorities="org.aliveclean.scene" android:exported="true" android:permission="android.permission.STATUS_BAR"/>
+-    <provider android:name=".NativeClockStatusProvider" android:authorities="org.aliveclean.clock.runtime" android:exported="true" android:directBootAware="true"/>
++    <receiver android:name=".ModuleHeartbeatReceiver" android:exported="true">
++      <intent-filter><action android:name="org.aliveclean.MODULE_HEARTBEAT"/></intent-filter>
++    </receiver>
++    <provider android:name=".NativeClockStatusProvider"
++ android:authorities="org.aliveclean.clock.runtime" android:exported="true" android:directBootAware="true"/>
+     <service android:name=".CleanWallpaper" android:exported="true" android:permission="android.permission.BIND_WALLPAPER">
+       <intent-filter><action android:name="android.service.wallpaper.WallpaperService"/></intent-filter>
+       <meta-data android:name="android.service.wallpaper" android:resource="@xml/wallpaper"/>
+diff --git a/app/java/org/aliveclean/FallbackHome.java b/app/java/org/aliveclean/FallbackHome.java
+new file mode 100644
+index 0000000..aa1dc98
+--- /dev/null
++++ b/app/java/org/aliveclean/FallbackHome.java
+@@ -0,0 +1,188 @@
++package org.aliveclean;
++
++import android.app.Activity;
++import android.app.WallpaperManager;
++import android.content.ComponentName;
++import android.content.Intent;
++import android.graphics.Color;
++import android.graphics.Typeface;
++import android.graphics.drawable.GradientDrawable;
++import android.os.Bundle;
++import android.view.Gravity;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.LinearLayout;
++import android.widget.ScrollView;
++import android.widget.TextView;
++
++/**
++ * 类原生降级首页。
++ *
++ * 原版首页直接把 Flyme/ColorOS 的"个性化"页资源（activity_system_customize_center 等）
++ * inflate 出来，在 AOSP 系 ROM 上资源表或主题一缺失就整页失败，
++ * 原来的处理是弹个对话框然后 finish —— 用户看到的就是"打开没画面"。
++ *
++ * 这里提供的是一条不依赖任何外挂资源的入口，只做三件事：
++ * 1. 说明当前平台被识别成什么（出问题时这行就是诊断依据）
++ * 2. 直达系统壁纸选择器，把 CleanWallpaper 设上去（AOSP 标准 Intent）
++ * 3. 仍然能进原来的编辑页 / 通知光效；进不去就把原因写在这页上，而不是静默黑屏
++ */
++public final class FallbackHome extends Activity {
++    static final String EXTRA_REASON="reason";
++    private TextView moduleState;
++
++    @Override protected void onCreate(Bundle state){
++        super.onCreate(state);
++        String reason=getIntent()!=null?getIntent().getStringExtra(EXTRA_REASON):null;
++        float d=getResources().getDisplayMetrics().density;
++
++        ScrollView scroll=new ScrollView(this);
++        scroll.setBackgroundColor(0xff0b0d10);
++        LinearLayout page=new LinearLayout(this);
++        page.setOrientation(LinearLayout.VERTICAL);
++        page.setPadding(dp(d,20),dp(d,56),dp(d,20),dp(d,40));
++        scroll.addView(page,new ViewGroup.LayoutParams(-1,-2));
++
++        TextView title=text("aospalive",22,0xffeef2f6,true);
++        page.addView(title);
++        TextView sub=text("类原生适配入口",13,0xff8b96a5,false);
++        sub.setPadding(0,dp(d,4),0,dp(d,22));
++        page.addView(sub);
++
++        // 降级页也要能看到模块到底注入没有 —— 这一页本来就是出问题时的诊断入口，
++        // 状态只藏在上一个界面里等于没给用户任何抓手。点一下列出三条回执通道。
++        moduleState=text("LSP 检测中…",12,0xff8b96a5,false);
++        moduleState.setPadding(0,0,0,dp(d,14));
++        moduleState.setOnClickListener(v->new android.app.AlertDialog.Builder(this)
++            .setTitle("LSP 模块状态")
++            .setMessage(ModuleActivation.describe(this))
++            .setPositiveButton("关闭",null)
++            .show());
++        page.addView(moduleState);
++
++        page.addView(card(d,"平台识别",PlatformCompat.describe(),0xff9fd8ff));
++        page.addView(card(d,"说明",
++            PlatformCompat.isColorOs()
++                ?"检测到 ColorOS 系 SystemUI，原版功能可用。"
++                :"当前是 AOSP 系 ROM：原版面向 ColorOS 的注入点不存在，功能按类原生路径降级运行。",
++            0xffc8d2de));
++
++        page.addView(action(d,"设为 Alive 壁纸",()->{
++            Intent intent=new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
++            intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
++                new ComponentName(this,CleanWallpaper.class));
++            try{startActivity(intent);}
++            catch(Exception failure){toast("系统没有壁纸选择器："+failure);}
++        }));
++
++        page.addView(action(d,"打开编辑器",()->{
++            try{startActivity(new Intent(this,MainActivity.class));}
++            catch(Exception failure){toast("编辑器打不开："+failure);}
++        }));
++
++        page.addView(action(d,"通知光效设置",()->{
++            try{startActivity(new Intent(this,NotificationSettingsActivity.class));}
++            catch(Exception failure){toast("页面打不开："+failure);}
++        }));
++
++        page.addView(action(d,"重试原版界面",()->{
++            getSharedPreferences("aosp_fallback",0).edit().putBoolean("enabled",false).apply();
++            Intent home=new Intent(this,HomeActivity.class);
++            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
++            try{startActivity(home);}catch(Exception failure){toast("打不开："+failure);}
++            finish();
++        }));
++
++        if(reason!=null&&!reason.isEmpty()){
++            page.addView(card(d,"原版首页失败原因",reason,0xffff9a9a));
++        }
++
++        TextView hint=text("模块本身在系统中生效，与这个界面能否打开无关。壁纸装上后即可测试息屏衔接。",
++            12,0xff6f7a88,false);
++        hint.setPadding(0,dp(d,20),0,0);
++        page.addView(hint);
++
++        setContentView(scroll);
++        getWindow().setStatusBarColor(0xff0b0d10);
++        getWindow().setNavigationBarColor(0xff0b0d10);
++    }
++
++    @Override protected void onResume(){
++        super.onResume();
++        refreshModule();
++    }
++
++    /** 请模块回执一次，600ms 后读结果；读的是三条通道的合并状态。 */
++    private void refreshModule(){
++        final TextView label=moduleState;
++        if(label==null)return;
++        ModuleActivation.request(this);
++        new Thread(()->{
++            boolean active=false;
++            for(int attempt=0;attempt<6;attempt++){
++                try{Thread.sleep(250);}catch(InterruptedException stop){return;}
++                if(ModuleActivation.active(getApplicationContext())){active=true;break;}
++            }
++            final boolean state=active;
++            runOnUiThread(()->{
++                if(isDestroyed()||moduleState!=label)return;
++                label.setText(state?"LSP 已激活 · 点开看详情":"LSP 未激活 · 点开看详情");
++                label.setTextColor(state?0xff35ba79:0xffe07b7b);
++            });
++        },"aospalive-FallbackStatus").start();
++    }
++
++    private TextView text(String value,int size,int color,boolean bold){
++        TextView view=new TextView(this);
++        view.setText(value);
++        view.setTextSize(size);
++        view.setTextColor(color);
++        if(bold)view.setTypeface(Typeface.DEFAULT_BOLD);
++        return view;
++    }
++
++    private View card(float d,String head,String body,int accent){
++        LinearLayout box=new LinearLayout(this);
++        box.setOrientation(LinearLayout.VERTICAL);
++        box.setPadding(dp(d,16),dp(d,14),dp(d,16),dp(d,14));
++        GradientDrawable background=new GradientDrawable();
++        background.setColor(0xff14181d);
++        background.setCornerRadius(dp(d,14));
++        box.setBackground(background);
++        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2);
++        lp.bottomMargin=dp(d,10);
++        box.setLayoutParams(lp);
++        TextView title=text(head,12,accent,true);
++        box.addView(title);
++        TextView value=text(body,13,0xffc8d2de,false);
++        value.setPadding(0,dp(d,6),0,0);
++        value.setTextIsSelectable(true);
++        box.addView(value);
++        return box;
++    }
++
++    private View action(float d,String label,Runnable click){
++        TextView view=new TextView(this);
++        view.setText(label);
++        view.setTextSize(15);
++        view.setTextColor(0xffeef2f6);
++        view.setGravity(Gravity.CENTER_VERTICAL);
++        view.setPadding(dp(d,18),dp(d,16),dp(d,18),dp(d,16));
++        GradientDrawable background=new GradientDrawable();
++        background.setColor(0xff1b2129);
++        background.setCornerRadius(dp(d,14));
++        background.setStroke(1,0xff2a3341);
++        view.setBackground(background);
++        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2);
++        lp.bottomMargin=dp(d,10);
++        view.setLayoutParams(lp);
++        view.setOnClickListener(v->click.run());
++        return view;
++    }
++
++    private void toast(String message){
++        android.widget.Toast.makeText(this,message,android.widget.Toast.LENGTH_LONG).show();
++    }
++
++    private int dp(float density,float value){return Math.round(density*value);}
++}
+diff --git a/app/java/org/aliveclean/HomeActivationStatus.java b/app/java/org/aliveclean/HomeActivationStatus.java
+index 2904327..95870cf 100644
+--- a/app/java/org/aliveclean/HomeActivationStatus.java
++++ b/app/java/org/aliveclean/HomeActivationStatus.java
+@@ -28,7 +28,7 @@ final class HomeActivationStatus {
+         this.activity=activity;
+         LinearLayout row=new LinearLayout(activity);row.setOrientation(LinearLayout.HORIZONTAL);
+         row.setGravity(Gravity.CENTER_VERTICAL);row.setPadding(dp(24),dp(6),dp(24),dp(10));
+-        moduleLabel=indicator(row,ui,moduleDot,"LSP 检测中");
++        moduleLabel=indicator(row,ui,moduleDot,"LSP 检测中");moduleLabel.setOnClickListener(v->explain());
+         View gap=new View(activity);row.addView(gap,new LinearLayout.LayoutParams(dp(22),1));
+         rootLabel=indicator(row,ui,rootDot,"ROOT 检测中");
+         row.setOnClickListener(v->start(true));
+@@ -46,7 +46,7 @@ final class HomeActivationStatus {
+         if(closed)return;
+         started=true;
+         main.removeCallbacks(refresh);
+-        moduleDeadline=SystemClock.uptimeMillis()+1500;
++        moduleDeadline=SystemClock.uptimeMillis()+2500;
+         requestModule=true;moduleKnown=false;module=false;
+         main.post(refresh);
+         if(rootWatch!=null)return;
+@@ -68,7 +68,7 @@ final class HomeActivationStatus {
+     private void queryModule(){
+         if(!started||closed||activity.isDestroyed()||queryInFlight)return;
+         queryInFlight=true;
+-        int request=generation;boolean announce=requestModule;requestModule=false;
++        int request=generation;boolean announce=requestModule||!module;requestModule=false;
+         Context app=activity.getApplicationContext();
+         queries.execute(()->{
+             boolean active=false;
+@@ -89,6 +89,19 @@ final class HomeActivationStatus {
+         });
+     }
+ 
++    /** 点一下 LSP 状态：告诉用户三条回执通道各自的状态，别让人只能干瞪眼。 */
++    private void explain(){
++        new android.app.AlertDialog.Builder(activity)
++            .setTitle("LSP 模块状态")
++            .setMessage(ModuleActivation.describe(activity)
++                +"\n\n排查顺序：\n1. Vector/LSPosed 里模块已启用、作用域勾了「系统界面」\n"
++                +"2. 改完作用域要重启系统界面（重启手机最稳）\n"
++                +"3. 点下面「重试」再看一次")
++            .setPositiveButton("重试",(dialog,which)->start(true))
++            .setNegativeButton("关闭",null)
++            .show();
++    }
++
+     private void show(){
+         if(!started||closed)return;
+         boolean modulePending=!moduleKnown||(!module&&SystemClock.uptimeMillis()<moduleDeadline);
+diff --git a/app/java/org/aliveclean/HomeActivity.java b/app/java/org/aliveclean/HomeActivity.java
+index 6d4653f..a32609c 100644
+--- a/app/java/org/aliveclean/HomeActivity.java
++++ b/app/java/org/aliveclean/HomeActivity.java
+@@ -15,10 +15,17 @@ public final class HomeActivity extends Activity {
+     private int previewLoad;
+     @Override public void onCreate(Bundle state){
+         super.onCreate(state);
++        // 类原生适配：原版首页依赖 Flyme/ColorOS 个性化页资源，失败过一次就不再
++        // 每次重试（否则每开一次都先黑屏闪一下）。用户可在降级页里手动重试。
++        if(!PlatformCompat.isColorOs()&&getSharedPreferences("aosp_fallback",0).getBoolean("enabled",false)){
++            try{startActivity(new Intent(this,FallbackHome.class));}catch(Exception ignored){}
++            finish();
++            return;
++        }
+         // ColorOS can deny SystemUI's cold ContentProvider start even when the
+         // module and provider are installed. Apply its own associated-startup
+         // setting once after installation or an app-data reset.
+-        if(!getSharedPreferences("native_clock_startup",0).getBoolean("allowed",false)){
++        if(PlatformCompat.isColorOs()&&!getSharedPreferences("native_clock_startup",0).getBoolean("allowed",false)){
+             new Thread(()->{
+                 try{
+                     RootBridge.allowClockStartup(this);
+@@ -58,16 +65,6 @@ public final class HomeActivity extends Activity {
+             replaceAnchor(lp,ui.id("id","system_layout_container"),wallpaper.getId());
+             ((ViewGroup.MarginLayoutParams)lp).topMargin=Math.round(12*getResources().getDisplayMetrics().density);
+             parent.addView(alive,lp);firstText(alive).setText("Alive 壁纸");alive.setOnClickListener(v->openEditor(1,true));
+-            View vivo=ui.inflate("view_system_center_wallpaper",parent);vivo.setId(View.generateViewId());ui.cardBackground(vivo);
+-            ViewGroup.LayoutParams vivoLp=lp.getClass().getConstructor(ViewGroup.LayoutParams.class).newInstance(lp);
+-            for(java.lang.reflect.Field field:lp.getClass().getFields())if(!java.lang.reflect.Modifier.isStatic(field.getModifiers())&&field.getType().isPrimitive())field.set(vivoLp,field.get(lp));
+-            replaceAnchor(vivoLp,wallpaper.getId(),alive.getId());parent.addView(vivo,vivoLp);firstText(vivo).setText("Vivo Alive 壁纸");
+-            vivo.setOnClickListener(v->startActivity(new Intent(this,VivoLibraryActivity.class)));
+-            View xiaomi=ui.inflate("view_system_center_wallpaper",parent);xiaomi.setId(View.generateViewId());ui.cardBackground(xiaomi);
+-            ViewGroup.LayoutParams xiaomiLp=vivoLp.getClass().getConstructor(ViewGroup.LayoutParams.class).newInstance(vivoLp);
+-            for(java.lang.reflect.Field field:vivoLp.getClass().getFields())if(!java.lang.reflect.Modifier.isStatic(field.getModifiers())&&field.getType().isPrimitive())field.set(xiaomiLp,field.get(vivoLp));
+-            replaceAnchor(xiaomiLp,alive.getId(),vivo.getId());parent.addView(xiaomi,xiaomiLp);firstText(xiaomi).setText("小米Alive壁纸");
+-            xiaomi.setOnClickListener(v->startActivity(new Intent(this,XiaomiLibraryActivity.class)));
+             // The original tiles are pinned to opposite screen edges, while the
+             // wallpaper bars have a centered content width. Put the original
+             // tiles in one equally divided row with that same width instead.
+@@ -75,7 +72,7 @@ public final class HomeActivity extends Activity {
+             shortcuts.setOrientation(LinearLayout.HORIZONTAL);shortcuts.setBaselineAligned(false);
+             ViewGroup.LayoutParams shortcutLp=wallpaper.getLayoutParams().getClass().getConstructor(ViewGroup.LayoutParams.class).newInstance(wallpaper.getLayoutParams());
+             for(java.lang.reflect.Field field:shortcutLp.getClass().getFields())if(!java.lang.reflect.Modifier.isStatic(field.getModifiers())&&field.getType().isPrimitive())field.set(shortcutLp,field.get(wallpaper.getLayoutParams()));
+-            replaceAnchor(shortcutLp,ui.id("id","system_layout_container"),xiaomi.getId());
++            replaceAnchor(shortcutLp,ui.id("id","system_layout_container"),alive.getId());
+             shortcutLp.height=ViewGroup.LayoutParams.WRAP_CONTENT;parent.addView(shortcuts,shortcutLp);
+             int shortcutCount=0;
+             for(boolean font:new boolean[]{false,true}){
+@@ -91,7 +88,7 @@ public final class HomeActivity extends Activity {
+                 if(destination!=null)shortcutCount++;
+             }
+             shortcuts.setVisibility(shortcutCount==0?View.GONE:View.VISIBLE);
+-            int extensionAnchor=shortcutCount==0?xiaomi.getId():shortcuts.getId();
++            int extensionAnchor=shortcutCount==0?alive.getId():shortcuts.getId();
+             View extensions=ui.find(root,"system_center_extension");ViewGroup.LayoutParams extensionsLp=extensions.getLayoutParams();
+             replaceAnchor(extensionsLp,ui.id("id","system_center_theme"),extensionAnchor);extensions.setLayoutParams(extensionsLp);
+             View light=ui.find(root,"system_more_light_effect");
+@@ -108,9 +105,19 @@ public final class HomeActivity extends Activity {
+                 ImageView image=(ImageView)ui.find(card,"item_image");ViewGroup holder=(ViewGroup)image.getParent();
+                 int index=holder.indexOfChild(image);ViewGroup.LayoutParams params=image.getLayoutParams();holder.removeView(image);
+                 HomeScenePreview preview=new HomeScenePreview(this,i);preview.setId(image.getId());holder.addView(preview,index,params);previews.add(preview);
+-                card.setOnClickListener(v->{if(!preview.openXiaomi())openEditor(mode,false);});card.setContentDescription(labels[i]+"预览");
++                card.setOnClickListener(v->openEditor(mode,false));card.setContentDescription(labels[i]+"预览");
+             }
+-        }catch(Exception error){SettingsScreen.fail(this,error);}
++        }catch(Exception error){
++            // 类原生适配：原版首页依赖 Flyme/ColorOS 的个性化页资源，
++            // 在 AOSP 系 ROM 上可能整页加载失败。原实现只弹框再 finish，
++            // 用户侧看到的就是"打开没画面"。这里改成落到降级入口。
++            android.util.Log.e("AliveClean","Official home UI unavailable",error);
++            getSharedPreferences("aosp_fallback",0).edit().putBoolean("enabled",true).apply();
++            Intent fallback=new Intent(this,FallbackHome.class);
++            fallback.putExtra(FallbackHome.EXTRA_REASON,error.getClass().getSimpleName()+": "+error.getMessage());
++            try{startActivity(fallback);}catch(Exception ignored){}
++            finish();
++        }
+     }
+     private static TextView firstText(View view){
+         if(view instanceof TextView)return (TextView)view;
+@@ -134,11 +141,9 @@ public final class HomeActivity extends Activity {
+     }
+     @Override protected void onResume(){super.onResume();int request=++previewLoad;
+         if(activation!=null)activation.start();
+-        new Thread(()->{
+-            XiaomiHomePreview.Card[] cards;
+-            try{cards=XiaomiHomePreview.load(this);}catch(Exception error){android.util.Log.w("OpenAliveXiaomi","Home wallpaper selection",error);cards=new XiaomiHomePreview.Card[3];}
+-            XiaomiHomePreview.Card[] selected=cards;runOnUiThread(()->{if(isDestroyed()||request!=previewLoad)return;for(int i=0;i<previews.size();i++)previews.get(i).start(selected[i]);});
+-        },"HomeWallpaperPreviews").start();
++        // 小米超级壁纸整套已经从这个包里移除了，这张卡不再去问小米的壁纸包，
++        // 直接用本应用自己的 Alive 渲染器出预览（start(null) 走 RenderLoop）。
++        runOnUiThread(()->{if(isDestroyed()||request!=previewLoad)return;for(HomeScenePreview preview:previews)preview.start(null);});
+     }
+     @Override protected void onPause(){previewLoad++;if(activation!=null)activation.stop();for(HomeScenePreview preview:previews)preview.stop();super.onPause();}
+     @Override protected void onDestroy(){if(activation!=null)activation.close();super.onDestroy();}
+diff --git a/app/java/org/aliveclean/MainActivity.java b/app/java/org/aliveclean/MainActivity.java
+index 51b51db..48b9451 100644
+--- a/app/java/org/aliveclean/MainActivity.java
++++ b/app/java/org/aliveclean/MainActivity.java
+@@ -52,11 +52,34 @@ public final class MainActivity extends Activity implements TextureView.SurfaceT
+             showScene();
+         }catch(Exception e){
+             android.util.Log.e("AliveClean","Official editor initialization failed",e);
+-            new android.app.AlertDialog.Builder(this).setTitle("编辑页面无法打开").setMessage(e.toString())
+-                .setPositiveButton("关闭",(dialog,which)->finish()).setOnCancelListener(dialog->finish()).show();
++            final String detail=describe(e);
++            new android.app.AlertDialog.Builder(this).setTitle("编辑页面无法打开").setMessage(detail)
++                .setPositiveButton("关闭",(dialog,which)->finish())
++                .setNeutralButton("复制详情",(dialog,which)->{
++                    android.content.ClipboardManager clipboard=(android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
++                    if(clipboard!=null)clipboard.setPrimaryClip(android.content.ClipData.newPlainText("OpenAlive",detail));
++                    android.widget.Toast.makeText(this,"错误详情已复制，可以直接粘贴发给开发者",android.widget.Toast.LENGTH_LONG).show();
++                })
++                .setOnCancelListener(dialog->finish()).show();
+         }
+     }
+ 
++    /** 把异常链完整摊开：只显示最外层 InflateException 看不出真正原因。 */
++    static String describe(Throwable error){
++        StringBuilder text=new StringBuilder();
++        Throwable current=error;
++        int guard=0;
++        while(current!=null&&guard++<8){
++            if(text.length()>0)text.append("\ncaused by: ");
++            text.append(current.getClass().getName());
++            String message=current.getMessage();
++            if(message!=null&&!message.isEmpty())text.append(": ").append(message);
++            Throwable next=current.getCause();
++            current=next==current?null:next;
++        }
++        return text.toString();
++    }
++
+     private void showScene(){
+         renderer.mode(mode);
+         if(editor!=null)editor.update(new SceneOptions(draft),mode,importing);
+@@ -99,11 +122,13 @@ public final class MainActivity extends Activity implements TextureView.SurfaceT
+         // committed configuration and attaches the AOD clock when it is ready.
+         if(chosen.save(getSharedPreferences(SceneOptions.APPLIED,0))){
+             SceneProvider.changed(this);
+-            if(chosen.aod>=0){
++            // 类原生 ROM 上息屏由 AOSP 自己的 Doze/ambient 接管，没有"配置"这一步；
++            // 以前走 prepareAod() 会因为找不到 ColorOS 的 AOD 注入点而弹报错框，
++            // 于是成了"功能正常但一应用就报错"。这里按平台分流，只报一次真实结果。
++            if(chosen.aod>=0&&PlatformCompat.isColorOs()){
+                 prepareAod();
+-                if(chosen.aod==1&&!SceneChannel.hasClockHost())
+-                    toast("壁纸已应用，息屏时钟正在连接");
+-            }else toast("壁纸已应用");
++                if(chosen.aod==1&&!SceneChannel.hasClockHost())toast("壁纸已应用，息屏时钟正在连接");
++            }else toast(PlatformCompat.isColorOs()?"壁纸已应用":"壁纸已应用，息屏由系统原生常亮显示接管");
+         }else toast("设置保存失败，请重试");
+     }
+ 
+diff --git a/app/java/org/aliveclean/ModuleActivation.java b/app/java/org/aliveclean/ModuleActivation.java
+index 3b0d58d..dbf475d 100644
+--- a/app/java/org/aliveclean/ModuleActivation.java
++++ b/app/java/org/aliveclean/ModuleActivation.java
+@@ -1,15 +1,41 @@
+ package org.aliveclean;
+ 
+ import android.content.*;
++import android.content.pm.PackageManager;
+ import android.net.Uri;
+ import android.os.*;
++import android.provider.Settings;
+ 
+-/** A live SystemUI module receipt, separate from optional clock capabilities. */
++/**
++ * SystemUI 里那个模块的存活回执。
++ *
++ * 原来只有一条路：模块注入后调用 announce()，把 Binder 交给本应用自己的
++ * ContentProvider，首页再问 provider 要 active。这条路对时序敏感 —— SystemUI
++ * 冷启时那次调用一旦没落地（provider 尚未解析、应用进程被回收后模块没有再
++ * announce），就会出现"模块明明在 Vector 里启用了、首页却一直显示 LSP 未激活"。
++ *
++ * 现在改成三条互相独立的回执通道，任意一条新鲜就算激活：
++ *   1. provider Binder（原路径，最精确，进程死掉会立刻失效）
++ *   2. 定向广播心跳（不依赖包可见性解析，落不到 provider 时兜底）
++ *   3. Settings.Global 时间戳（模块有 WRITE_SECURE_SETTINGS，能跨进程重启存活）
++ *
++ * 三条都空才判未激活；界面点一下会列出每条通道的实际状态，方便定位到底卡在哪。
++ */
+ final class ModuleActivation {
+     static final String QUERY="org.aliveclean.QUERY_MODULE_ACTIVATION";
++    static final String HEARTBEAT="org.aliveclean.MODULE_HEARTBEAT";
++    static final String HEARTBEAT_CLASS="org.aliveclean.ModuleHeartbeatReceiver";
++    /** 自建的时间戳键；只写这一个键，不碰系统任何已有配置。 */
++    static final String STAMP_KEY="aliveclean_module_heartbeat";
++    /** 回执多旧还算活。模块收到查询就回，30 秒是给系统卡顿留的余量。 */
++    static final long FRESH_MS=30000;
++
+     private static final Uri STATUS=Uri.parse("content://org.aliveclean.clock.runtime");
+     private static final Binder OWNER=new Binder();
++    private static final String PREFS="module_heartbeat",KEY_LAST="last";
+     private static final java.util.concurrent.atomic.AtomicBoolean announcing=new java.util.concurrent.atomic.AtomicBoolean();
++
++    /** 第 1 条：把模块自己的 Binder 交给应用的 provider。 */
+     static void announce(Context context){
+         if(!announcing.compareAndSet(false,true))return;
+         new Thread(()->{
+@@ -17,21 +43,98 @@ final class ModuleActivation {
+                 Bundle data=new Bundle();data.putBinder("owner",OWNER);
+                 context.getContentResolver().call(STATUS,"hookAnnounce",null,data);
+             }catch(RuntimeException unavailable){
+-                // The app may not be allowed to start during boot. The visible
+-                // home page requests a fresh receipt; no persisted ready flag.
++                // 应用进程可能还没起来（冷启时被 SELinux/后台限制挡住）。
++                // 这里不该丢回执 —— 还有第 2、3 条通道兜底。
+             }finally{announcing.set(false);}
+         },"OpenAliveModuleReceipt").start();
+     }
+ 
++    /** 模块侧：三条通道一起发一遍。广播/写设置都别占 SystemUI 主线程。 */
++    static void report(final Context context){
++        announce(context);
++        new Thread(()->{
++            heartbeat(context);
++            stamp(context);
++        },"aospalive-ModuleReport").start();
++    }
++
++    /** 第 2 条：定向广播心跳。显式组件，绕过包可见性解析。 */
++    private static void heartbeat(Context context){
++        try{
++            Intent intent=new Intent(HEARTBEAT);
++            intent.setComponent(new ComponentName("org.aliveclean",HEARTBEAT_CLASS));
++            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
++            context.sendBroadcast(intent);
++        }catch(RuntimeException unavailable){android.util.Log.w("OpenAliveModule","heartbeat unavailable",unavailable);}
++    }
++
++    /** 第 3 条：写一个自有键的时间戳。SystemUI 持有 WRITE_SECURE_SETTINGS。 */
++    private static void stamp(Context context){
++        try{
++            if(context.checkSelfPermission(android.Manifest.permission.WRITE_SECURE_SETTINGS)!=PackageManager.PERMISSION_GRANTED)return;
++            Settings.Global.putLong(context.getContentResolver(),STAMP_KEY,System.currentTimeMillis());
++        }catch(RuntimeException unavailable){android.util.Log.w("OpenAliveModule","heartbeat stamp unavailable",unavailable);}
++    }
++
++    /** 应用侧：请 SystemUI 里的模块重新回执一次。 */
+     static void request(Context context){
+         try{context.sendBroadcast(new Intent(QUERY).setPackage("com.android.systemui"));}
+         catch(RuntimeException unavailable){android.util.Log.w("OpenAliveModule","SystemUI activation query unavailable",unavailable);}
+     }
++
++    /** 应用侧：广播收到后记一笔（由 ModuleHeartbeatReceiver 调用）。 */
++    static void noteHeartbeat(Context context){
++        try{context.getSharedPreferences(PREFS,0).edit().putLong(KEY_LAST,System.currentTimeMillis()).apply();}
++        catch(RuntimeException ignored){}
++    }
++
+     static boolean active(Context context){
++        return providerActive(context)||heartbeatFresh(context)||stampFresh(context);
++    }
++
++    private static boolean providerActive(Context context){
+         try{
+             Bundle state=context.getContentResolver().call(STATUS,"hookStatus",null,null);
+             return state!=null&&state.getBoolean("active");
+         }catch(RuntimeException unavailable){return false;}
+     }
++
++    private static long heartbeatAge(Context context){
++        try{
++            long last=context.getSharedPreferences(PREFS,0).getLong(KEY_LAST,0);
++            if(last<=0)return -1;
++            long age=System.currentTimeMillis()-last;
++            return age<0||age>FRESH_MS?-1:age;
++        }catch(RuntimeException unavailable){return -1;}
++    }
++
++    private static boolean heartbeatFresh(Context context){return heartbeatAge(context)>=0;}
++
++    private static long stampAge(Context context){
++        try{
++            long last=Settings.Global.getLong(context.getContentResolver(),STAMP_KEY,0);
++            if(last<=0)return -1;
++            long age=System.currentTimeMillis()-last;
++            return age<0||age>FRESH_MS?-1:age;
++        }catch(RuntimeException unavailable){return -1;}
++    }
++
++    private static boolean stampFresh(Context context){return stampAge(context)>=0;}
++
++    /** 给界面用的诊断文本：哪条通了、哪条断了、断了大概是什么原因。 */
++    static String describe(Context context){
++        boolean provider=providerActive(context);
++        long heartbeat=heartbeatAge(context),stamp=stampAge(context);
++        StringBuilder text=new StringBuilder();
++        text.append("① 应用回执：").append(provider?"已就绪":"无");
++        text.append("\n② 广播心跳：").append(heartbeat<0?"无":(heartbeat/1000)+" 秒前");
++        text.append("\n③ 设置时间戳：").append(stamp<0?"无":(stamp/1000)+" 秒前");
++        boolean any=provider||heartbeat>=0||stamp>=0;
++        text.append("\n\n").append(any
++                ?"模块已注入系统界面，至少一条回执通道是通的。"
++                :"三条都不通，说明模块这次没被注入到系统界面进程（或者进来后 hook 入口没跑到）。");
++        return text.toString();
++    }
++
+     private ModuleActivation(){}
+ }
+diff --git a/app/java/org/aliveclean/ModuleActivationHook.java b/app/java/org/aliveclean/ModuleActivationHook.java
+index 71944b5..153bd40 100644
+--- a/app/java/org/aliveclean/ModuleActivationHook.java
++++ b/app/java/org/aliveclean/ModuleActivationHook.java
+@@ -1,28 +1,70 @@
+ package org.aliveclean;
+ 
++import android.app.AndroidAppHelper;
+ import android.app.Application;
+ import android.content.*;
+ import android.os.Build;
+ import de.robv.android.xposed.*;
+ 
+-/** Only loaded in the injected SystemUI process, never in the settings app. */
++/**
++ * 只在被注入的 SystemUI 进程里加载，永远不在设置应用里跑。
++ *
++ * 回执要尽早发，晚发就会被首页判成"未激活"。原来只有 Application.attach 一条
++ * 触发点，在部分 ROM 上 attach 早于注入、或者根本走不到我们这个 hook，回执就
++ * 永远发不出去 —— 用户看到的就是"明明启用了，却一直显示未激活"。
++ *
++ * 现在两条触发点并存，谁先到谁绑：
++ *   1. hook Application.attach（原有路径）
++ *   2. 起一个 30 秒的轮询线程问 AndroidAppHelper 要当前 Application（不依赖 hook 是否命中）
++ * 绑定成功后只执行一次，之后由应用的查询广播驱动重新回执。
++ */
+ final class ModuleActivationHook {
+-    private static boolean registered;
++    private static boolean hooked,registered;
+     static void install(){
+-        XposedHelpers.findAndHookMethod(Application.class,"attach",Context.class,new XC_MethodHook(){
+-            @Override protected void afterHookedMethod(MethodHookParam call){
+-                Context context=(Context)call.thisObject;
+-                if(!"com.android.systemui".equals(context.getPackageName())||registered)return;
+-                registered=true;
+-                BroadcastReceiver receiver=new BroadcastReceiver(){
+-                    @Override public void onReceive(Context c,Intent intent){ModuleActivation.announce(context);}
+-                };
+-                IntentFilter filter=new IntentFilter(ModuleActivation.QUERY);
+-                if(Build.VERSION.SDK_INT>=33)context.registerReceiver(receiver,filter,Context.RECEIVER_EXPORTED);
+-                else context.registerReceiver(receiver,filter);
+-                ModuleActivation.announce(context);
++        hookAttach();
++        pollForApplication();
++    }
++
++    private static void hookAttach(){
++        if(hooked)return;
++        hooked=true;
++        try{
++            XposedHelpers.findAndHookMethod(Application.class,"attach",Context.class,new XC_MethodHook(){
++                @Override protected void afterHookedMethod(MethodHookParam call){
++                    bind((Context)call.thisObject);
++                }
++            });
++        }catch(Throwable unavailable){XposedBridge.log("aospalive: Application.attach hook unavailable: "+unavailable);}
++    }
++
++    private static void pollForApplication(){
++        Thread thread=new Thread(()->{
++            for(int attempt=0;attempt<300;attempt++){
++                try{
++                    Application application=AndroidAppHelper.currentApplication();
++                    if(application!=null){bind(application);return;}
++                }catch(Throwable ignored){}
++                try{Thread.sleep(100);}catch(InterruptedException stop){return;}
+             }
+-        });
++        },"aospalive-ModuleBind");
++        thread.setDaemon(true);
++        thread.start();
+     }
++
++    private static synchronized void bind(Context context){
++        if(registered||context==null)return;
++        if(!"com.android.systemui".equals(context.getPackageName()))return;
++        registered=true;
++        BroadcastReceiver receiver=new BroadcastReceiver(){
++            @Override public void onReceive(Context c,Intent intent){ModuleActivation.report(context);}
++        };
++        IntentFilter filter=new IntentFilter(ModuleActivation.QUERY);
++        try{
++            if(Build.VERSION.SDK_INT>=33)context.registerReceiver(receiver,filter,Context.RECEIVER_EXPORTED);
++            else context.registerReceiver(receiver,filter);
++        }catch(RuntimeException unavailable){XposedBridge.log("aospalive: query receiver unavailable: "+unavailable);}
++        ModuleActivation.report(context);
++    }
++
+     private ModuleActivationHook(){}
+ }
+diff --git a/app/java/org/aliveclean/OfficialUi.java b/app/java/org/aliveclean/OfficialUi.java
+index 8f4ddeb..3b873d2 100644
+--- a/app/java/org/aliveclean/OfficialUi.java
++++ b/app/java/org/aliveclean/OfficialUi.java
+@@ -3,6 +3,7 @@ package org.aliveclean;
+ import android.content.*;
+ import android.content.pm.ApplicationInfo;
+ import android.content.res.*;
++import android.util.AttributeSet;
+ import android.view.*;
+ import java.io.*;
+ import java.security.MessageDigest;
+@@ -49,16 +50,11 @@ final class OfficialUi extends ContextWrapper implements AutoCloseable {
+         // Original controls are an unchanged secondary DEX in this APK. This
+         // also makes XML drawables available to Android's resource inflater.
+         loader=base.getClassLoader();
+-        ApplicationInfo info=new ApplicationInfo();
+-        info.packageName="com.flyme.systemuieditor";
+-        info.uid=android.os.Process.myUid();
+-        info.targetSdkVersion=base.getApplicationInfo().targetSdkVersion;
+-        info.sourceDir=file.getPath();info.publicSourceDir=file.getPath();
+-        info.splitSourceDirs=null;info.splitPublicSourceDirs=null;
+-        info.sharedLibraryFiles=null;
+-        // Load an APK resource namespace through PackageManager, rather than
+-        // attaching a loader to the framework's special android context.
+-        Resources source=base.getPackageManager().getResourcesForApplication(info);
++        // 类原生适配：原实现手工拼 ApplicationInfo 再问 PackageManager，
++        // Android 16/17 上这条路常拿不到资源。失败时由 UiResourceLoader 直接挂载 APK。
++        UiResourceLoader.Bundle loaded=UiResourceLoader.load(base,file.getPath(),"com.flyme.systemuieditor","Theme.EditorActivity","layout","activity_editor");
++        if(loaded==null||loaded.resources==null)throw new IOException("editor-ui resources unavailable: "+PlatformCompat.describe());
++        Resources source=loaded.resources;
+         resources=source;
+         if(forceDark){
+             Configuration config=new Configuration(source.getConfiguration());
+@@ -70,7 +66,12 @@ final class OfficialUi extends ContextWrapper implements AutoCloseable {
+             // the personalization home uses a separate APK and Resources.
+             resources.updateConfiguration(config,source.getDisplayMetrics());
+         }
+-        theme=resources.newTheme();theme.applyStyle(id("style","Theme.EditorActivity"),true);
++        // 注意：主题必须在 updateConfiguration() 之后再建。原实现在深色模式下
++        // 先建主题再改配置，改完主题里缓存的配置就不对了，控件取到的颜色/样式会串。
++        theme=resources.newTheme();
++        int themeStyle=resources.getIdentifier("Theme.EditorActivity","style","com.flyme.systemuieditor");
++        if(themeStyle==0)themeStyle=resources.getIdentifier("Theme.EditorActivity","style","*");
++        if(themeStyle!=0)theme.applyStyle(themeStyle,true);
+     }
+     int id(String type,String name){int id=resources.getIdentifier(name,type,"com.flyme.systemuieditor");if(id==0)throw new IllegalArgumentException(type+"/"+name);return id;}
+     View inflate(String name,ViewGroup parent){return LayoutInflater.from(this).inflate(id("layout",name),parent,false);}
+@@ -82,10 +83,48 @@ final class OfficialUi extends ContextWrapper implements AutoCloseable {
+     @Override public Context getApplicationContext(){return this;}
+     @Override public Object getSystemService(String name){
+         if(LAYOUT_INFLATER_SERVICE.equals(name)){
+-            if(inflater==null)inflater=LayoutInflater.from(getBaseContext()).cloneInContext(this);
++            if(inflater==null){
++                inflater=LayoutInflater.from(getBaseContext()).cloneInContext(this);
++                // 类原生适配：布局里的 Flyme/AndroidX 控件一律用本 APK 的
++                // ClassLoader 显式创建，不再依赖 Resources 自带的那个
++                // （外挂 APK 资源表可能被 PackageManager 或 AssetManager 建成
++                // boot ClassLoader 版本，那种情况下控件类会解析失败）。
++                inflater.setFactory2(new LayoutInflater.Factory2(){
++                    public View onCreateView(String name,Context context,AttributeSet attrs){return onCreateView(null,name,context,attrs);}
++                    public View onCreateView(View parent,String name,Context context,AttributeSet attrs){
++                        if(!name.contains(".")||name.startsWith("android."))return null;
++                        View created=createView(loader,name,context,attrs);
++                        if(created==null)android.util.Log.w("AliveClean","Unresolved editor view: "+name);
++                        return created;
++                    }
++                });
++            }
+             return inflater;
+         }
+         return super.getSystemService(name);
+     }
++    /** 用指定 ClassLoader 造 View；兼容三种标准构造器，失败返回 null 交给默认流程。 */
++    private static View createView(ClassLoader source,String name,Context context,AttributeSet attrs){
++        Class<?> type=null;
++        try{type=source.loadClass(name);}catch(Throwable ignored){}
++        if(type==null)return null;
++        Class<?>[][] signatures={
++            {Context.class,AttributeSet.class,int.class},
++            {Context.class,AttributeSet.class},
++            {Context.class}
++        };
++        Object[][] arguments={{context,attrs,0},{context,attrs},{context}};
++        for(int i=0;i<signatures.length;i++){
++            try{return (View)type.getConstructor(signatures[i]).newInstance(arguments[i]);}catch(Throwable ignored){}
++        }
++        for(int i=0;i<signatures.length;i++){
++            try{
++                java.lang.reflect.Constructor<?> constructor=type.getDeclaredConstructor(signatures[i]);
++                constructor.setAccessible(true);
++                return (View)constructor.newInstance(arguments[i]);
++            }catch(Throwable ignored){}
++        }
++        return null;
++    }
+     @Override public void close(){inflater=null;}
+ }
+diff --git a/app/java/org/aliveclean/PlatformCompat.java b/app/java/org/aliveclean/PlatformCompat.java
+new file mode 100644
+index 0000000..fd0fec7
+--- /dev/null
++++ b/app/java/org/aliveclean/PlatformCompat.java
+@@ -0,0 +1,96 @@
++package org.aliveclean;
++
++import android.os.Build;
++
++/**
++ * 类原生适配层：集中判定这一台机器到底有哪些平台能力。
++ *
++ * OpenAlive 原本按 ColorOS 17 的 SystemUI 实现写死（com.oplus.systemui.aod.*、
++ * com.oplus.keyguard.*、com.oplus.wallpapers）。在 AOSP 系 ROM（Project Infinity X /
++ * LineageOS / 类原生）上这些类统统不存在，原来的写法是"找不到就静静 return"，
++ * 表现出来就是"模块装了但什么都不生效"，同时 WallpaperInfo.supportsAmbientMode
++ * 这类无条件 hook 又会误导系统 AOD 状态机。
++ *
++ * 这里把判定收敛到一处，让各注入点按实际平台走对应的分支。
++ */
++final class PlatformCompat {
++    private PlatformCompat(){}
++
++    /** 缓存结果，避免在 SystemUI 热路径上反复做类查找。 */
++    private static volatile int cachedFlags=-1;
++
++    private static final int F_COLOR_OS=1;          // ColorOS/OPPO 系 SystemUI
++    private static final int F_AOSP_AOD=2;          // AOSP Doze / 息屏 DreamService
++    private static final int F_AOSP_CLOCK=4;        // AOSP 锁屏时钟插件体系
++    private static final int F_COLOR_OS_WALLPAPER=8;// com.oplus.wallpapers 个性化注入
++
++    static boolean isColorOs(){return (flags()&F_COLOR_OS)!=0;}
++    static boolean hasAospAod(){return (flags()&F_AOSP_AOD)!=0;}
++    static boolean hasAospClock(){return (flags()&F_AOSP_CLOCK)!=0;}
++    static boolean hasColorOsWallpaper(){return (flags()&F_COLOR_OS_WALLPAPER)!=0;}
++
++    /** ColorOS 专属注入点（AOD 动画、锁屏时钟编辑器、指纹 AOD 等）是否可以装。 */
++    static boolean colorOsHooksAvailable(){return isColorOs();}
++
++    /** 类原生：没有 ColorOS 那套，但具备 AOSP 息屏链路。 */
++    static boolean isAospFamily(){return !isColorOs()&&hasAospAod();}
++
++    private static int flags(){
++        int value=cachedFlags;
++        if(value>=0)return value;
++        ClassLoader boot=ClassLoader.getSystemClassLoader();
++        int mask=0;
++        if(existsAny(boot,new String[]{
++            "com.oplus.systemui.aod.display.SmoothTransitionController",
++            "com.oplus.systemui.aod.common.AodManager",
++            "com.oplus.keyguard.OplusKeyguardUpdateMonitorExImpl"}))mask|=F_COLOR_OS;
++        if(existsAny(boot,new String[]{
++            "com.android.systemui.doze.DozeMachine",
++            "com.android.systemui.doze.DozeService"}))mask|=F_AOSP_AOD;
++        if(existsAny(boot,new String[]{
++            "com.android.systemui.lowlightclock.LowLightClockDreamService",
++            "com.android.systemui.plugins.keyguard.ui.clocks.ClockProvider"}))mask|=F_AOSP_CLOCK;
++        if(existsAny(boot,new String[]{
++            "com.oplus.wallpapers.business.themeedit.ThemeEditActivity"}))mask|=F_COLOR_OS_WALLPAPER;
++        // 首次判定可能发生在系统刚起、类还没全部可见的时刻；只有全部为 0 时才不缓存。
++        if(mask!=0)cachedFlags=mask;
++        return mask;
++    }
++
++    private static boolean existsAny(ClassLoader loader,String[] names){
++        for(String name:names){
++            try{Class.forName(name,false,loader);return true;}
++            catch(Throwable ignored){}
++            // SystemUI 的类在 boot loader 下不一定可见，直接问 ClassLoader 也行。
++            try{if(loader!=null&&loader.loadClass(name)!=null)return true;}catch(Throwable ignored){}
++        }
++        return false;
++    }
++
++    /** 用传入的 SystemUI classLoader 重新判定一次（在 hook 回调里拿到真实 loader 后调用）。 */
++    static void refresh(ClassLoader systemUiLoader){
++        int mask=0;
++        if(existsAny(systemUiLoader,new String[]{
++            "com.oplus.systemui.aod.display.SmoothTransitionController",
++            "com.oplus.systemui.aod.common.AodManager",
++            "com.oplus.keyguard.OplusKeyguardUpdateMonitorExImpl"}))mask|=F_COLOR_OS;
++        if(existsAny(systemUiLoader,new String[]{
++            "com.android.systemui.doze.DozeMachine",
++            "com.android.systemui.doze.DozeService"}))mask|=F_AOSP_AOD;
++        if(existsAny(systemUiLoader,new String[]{
++            "com.android.systemui.lowlightclock.LowLightClockDreamService",
++            "com.android.systemui.plugins.keyguard.ui.clocks.ClockProvider"}))mask|=F_AOSP_CLOCK;
++        if(mask!=0)cachedFlags=mask;
++    }
++
++    static String describe(){
++        int mask=flags();
++        StringBuilder text=new StringBuilder();
++        text.append("ROM=").append(Build.BRAND).append('/').append(Build.DEVICE)
++            .append(" A").append(Build.VERSION.RELEASE).append(" API").append(Build.VERSION.SDK_INT);
++        text.append(" coloros=").append((mask&F_COLOR_OS)!=0);
++        text.append(" aospAod=").append((mask&F_AOSP_AOD)!=0);
++        text.append(" aospClock=").append((mask&F_AOSP_CLOCK)!=0);
++        return text.toString();
++    }
++}
+diff --git a/app/java/org/aliveclean/RootBridge.java b/app/java/org/aliveclean/RootBridge.java
+index bb3f232..80cafdf 100644
+--- a/app/java/org/aliveclean/RootBridge.java
++++ b/app/java/org/aliveclean/RootBridge.java
+@@ -32,7 +32,15 @@ final class RootBridge {
+ 
+     static String prepareAod(Context context)throws Exception {
+         if(android.os.Process.myUid()/100000!=0)throw new IOException("目前仅支持主用户的 ColorOS 息屏配置");
+-        if(context.getPackageManager().resolveContentProvider("com.oplus.aod.AodMachineHelperProvider",0)==null)throw new IOException("此系统未提供已适配的 ColorOS 息屏接口，请在系统设置中配置");
++        if(context.getPackageManager().resolveContentProvider("com.oplus.aod.AodMachineHelperProvider",0)==null){
++            // 类原生 ROM（Project Infinity X / LineageOS 等）没有 ColorOS 那套 AOD 注入点。
++            // 这里的息屏由 AOSP 自己的 Doze/ambient 链路接管：壁纸 xml 本来就声明了
++            // supportsAmbientMode，模块再补齐 AMBIENT_WALLPAPER 的绑定校验，系统会自己
++            // 在息屏时继续画这张壁纸。不存在、也不需要额外的"息屏配置"这一步。
++            // 以前这里直接抛异常，于是应用完壁纸会弹一个"息屏配置未完成"的报错框，
++            // 功能其实完全正常 —— 属于误报，这里按已就绪返回。
++            return "壁纸已应用，息屏由系统原生常亮显示接管，无需额外配置";
++        }
+         String apk=context.getApplicationInfo().sourceDir;
+         String command="CLASSPATH="+quote(apk)+" /system/bin/app_process /system/bin org.aliveclean.PlatformApply panoramic-aod";
+         Process process;
+diff --git a/app/java/org/aliveclean/SettingsScreen.java b/app/java/org/aliveclean/SettingsScreen.java
+index 350b099..1dc12b6 100644
+--- a/app/java/org/aliveclean/SettingsScreen.java
++++ b/app/java/org/aliveclean/SettingsScreen.java
+@@ -20,12 +20,10 @@ final class SettingsScreen {
+         type.getMethod("setTitle",CharSequence.class).invoke(toolbar,title);
+         type.getMethod("setTitleTextColor",int.class).invoke(toolbar,ui.color("colorOnSurface"));
+         if(activity instanceof HomeActivity){
++            // 右上角原本挂的是「小米桌面设置」入口（小米超级壁纸那一整套已经下线，
++            // 这个入口指向的 Activity 也不再注册，留着就是一个点了必崩的死链）。
++            // 这是根页面，没有返回键，也不再放任何菜单项。
+             type.getMethod("setNavigationIcon",Drawable.class).invoke(toolbar,new Object[]{null});
+-            Menu menu=(Menu)type.getMethod("getMenu").invoke(toolbar);
+-            MenuItem desktop=menu.add("小米桌面设置");
+-            desktop.setIcon(activity.getDrawable(R.drawable.ic_xiaomi_official));
+-            desktop.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+-            desktop.setOnMenuItemClickListener(item->{activity.startActivity(new android.content.Intent(activity,XiaomiDesktopSettingsActivity.class));return true;});
+         }else{
+             Drawable back=ui.getDrawable(ui.id("drawable","ic_back_wallpaper_apply")).mutate();
+             back.setTint(ui.color("colorOnSurface"));
+diff --git a/app/java/org/aliveclean/SettingsUi.java b/app/java/org/aliveclean/SettingsUi.java
+index a8e6395..434c8af 100644
+--- a/app/java/org/aliveclean/SettingsUi.java
++++ b/app/java/org/aliveclean/SettingsUi.java
+@@ -44,10 +44,11 @@ final class SettingsUi extends ContextWrapper {
+         // Parent is the platform loader: the two official AndroidX/Flyme libraries
+         // must not share classes with mismatched resource IDs.
+         loader=new DexClassLoader(file.getPath(),base.getCodeCacheDir().getPath(),null,ClassLoader.getSystemClassLoader().getParent());
+-        ApplicationInfo info=new ApplicationInfo();info.packageName=PACKAGE;info.uid=android.os.Process.myUid();
+-        info.sourceDir=info.publicSourceDir=file.getPath();info.targetSdkVersion=base.getApplicationInfo().targetSdkVersion;
+-        resources=base.getPackageManager().getResourcesForApplication(info);
+-        theme=resources.newTheme();theme.applyStyle(id("style","Theme.WallpaperSetting"),true);
++        // 类原生适配：Android 15+ 上 getResourcesForApplication(手工 ApplicationInfo) 不可靠，
++        // 由 UiResourceLoader 先走原路径、失败再直接挂载 APK 资源。
++        UiResourceLoader.Bundle loaded=UiResourceLoader.load(base,file.getPath(),PACKAGE,"Theme.WallpaperSetting","layout","activity_system_customize_center");
++        if(loaded==null||loaded.resources==null)throw new IOException("settings-ui resources unavailable: "+PlatformCompat.describe());
++        resources=loaded.resources;theme=loaded.theme;
+     }
+     int id(String type,String name){int value=resources.getIdentifier(name,type,PACKAGE);if(value==0)throw new IllegalArgumentException(type+"/"+name);return value;}
+     View find(View root,String name){return root.findViewById(id("id",name));}
+@@ -83,11 +84,45 @@ final class SettingsUi extends ContextWrapper {
+                     // The same slot is populated by our preview bindings instead.
+                     if(name.equals("com.flyme.textureview.RemoteTextureView")||name.equals("org.libpag.PAGView"))return new FrameLayout(context,attrs);
+                     if(!name.contains(".")||name.startsWith("android."))return null;
+-                    try{return (View)loader.loadClass(name).getConstructor(Context.class,AttributeSet.class).newInstance(context,attrs);}
+-                    catch(Exception e){throw new android.view.InflateException(name,e);}
++                    // 类原生适配：Flyme 的菜单控件（flyme.support.v7.view.menu.*）
++                    // 只在主 APK 的二级 DEX 里，外挂 UI 包的 DEX 里没有。
++                    // 原实现只问外挂 DEX，找不到就直接抛 —— 首页 mz_action_menu_item_layout
++                    // 就是这么崩的。这里依次回退到主 APK 的 ClassLoader，
++                    // 并兼容 (Context,AttributeSet) / (Context,AttributeSet,int) / (Context) 三种构造器。
++                    View created=createView(loader,name,context,attrs);
++                    if(created==null)created=createView(getBaseContext().getClassLoader(),name,context,attrs);
++                    if(created!=null)return created;
++                    android.util.Log.e("AliveClean","Unresolved view class: "+name);
++                    return null;
+                 }
+             });
+         }
+         return inflater;
+     }
++    /** 用一个 ClassLoader 造 View；兼容三种标准构造器，任何一步失败都只返回 null。 */
++    private static View createView(ClassLoader source,String name,Context context,AttributeSet attrs){
++        Class<?> type=null;
++        try{type=source.loadClass(name);}catch(Throwable ignored){}
++        if(type==null)return null;
++        Class<?>[][] signatures={
++            {Context.class,AttributeSet.class,int.class},
++            {Context.class,AttributeSet.class},
++            {Context.class}
++        };
++        Object[][] arguments={{context,attrs,0},{context,attrs},{context}};
++        for(int i=0;i<signatures.length;i++){
++            try{
++                java.lang.reflect.Constructor<?> constructor=type.getConstructor(signatures[i]);
++                return (View)constructor.newInstance(arguments[i]);
++            }catch(Throwable ignored){}
++        }
++        for(int i=0;i<signatures.length;i++){
++            try{
++                java.lang.reflect.Constructor<?> constructor=type.getDeclaredConstructor(signatures[i]);
++                constructor.setAccessible(true);
++                return (View)constructor.newInstance(arguments[i]);
++            }catch(Throwable ignored){}
++        }
++        return null;
++    }
+ }
+diff --git a/app/java/org/aliveclean/UiResourceLoader.java b/app/java/org/aliveclean/UiResourceLoader.java
+new file mode 100644
+index 0000000..0a8ded9
+--- /dev/null
++++ b/app/java/org/aliveclean/UiResourceLoader.java
+@@ -0,0 +1,135 @@
++package org.aliveclean;
++
++import android.content.Context;
++import android.content.pm.ApplicationInfo;
++import android.content.res.AssetManager;
++import android.content.res.Configuration;
++import android.content.res.Resources;
++import android.util.DisplayMetrics;
++
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++
++/**
++ * 类原生适配：把"外挂 UI apk 的资源"用更可靠的方式取出来。
++ *
++ * 关键约束（原实现注释里写过，上一版改动把它丢了）：
++ * 外挂 APK 的 XML drawable 里有 Flyme 自定义类（MzPressAnimationDrawable 等），
++ * 反序列化时用的是 Resources 自己的 ClassLoader。
++ *   - PackageManager.getResourcesForApplication() 返回的 Resources 带应用自己的
++ *     ClassLoader，能正常解析这些 drawable；
++ *   - 直接 new Resources(AssetManager,...)（public 三参构造器）用的是 boot
++ *     ClassLoader，解析自定义 drawable 必抛 ClassNotFoundException，
++ *     表现出来就是「布局加载失败 / Error inflating class」。
++ *
++ * 所以这里把 PM 路径当首选，并且用真正要用的 layout 资源做探测；
++ * 只有 PM 路径真的抛异常才退到 AssetManager 路径，并在那条路径上尽量
++ * 把 ClassLoader 换成应用自己的。
++ */
++final class UiResourceLoader {
++    private UiResourceLoader(){}
++
++    static final class Bundle {
++        final Resources resources;
++        final Resources.Theme theme;
++        final String via;
++        Bundle(Resources resources,Resources.Theme theme,String via){
++            this.resources=resources;this.theme=theme;this.via=via;
++        }
++    }
++
++    /**
++     * @param probeType 资源类型（用调用方真正会 inflate 的资源最准）
++     * @param probeName 资源名
++     */
++    static Bundle load(Context base,String apkPath,String packageName,
++                       String themeStyle,String probeType,String probeName){
++        Bundle first=viaPackageManager(base,apkPath,packageName,themeStyle);
++        if(usable(first,probeType,probeName,packageName))return first;
++        Bundle second=viaAssetManager(base,apkPath,packageName,themeStyle);
++        if(usable(second,probeType,probeName,packageName))return second;
++        // 两条路径都没通过严格探测：优先用 PM 的，它的 ClassLoader 仍然是对的。
++        if(first!=null)return first;
++        return second;
++    }
++
++    private static boolean usable(Bundle bundle,String type,String name,String pkg){
++        if(bundle==null||bundle.resources==null)return false;
++        if(type==null)return true;
++        Resources resources=bundle.resources;
++        // 依次尝试：显式包名 -> 任意包 -> 默认包。原实现只用 "*"，在
++        // Android 16/17 上对未安装的外挂包会稳定返回 0，导致明明可用却降级。
++        String[] packages=pkg!=null?new String[]{pkg,"*",null}:new String[]{"*",null};
++        for(String candidate:packages){
++            try{
++                if(resources.getIdentifier(name,type,candidate)!=0)return true;
++            }catch(Throwable ignored){}
++        }
++        return false;
++    }
++
++    @SuppressWarnings("deprecation")
++    private static Bundle viaPackageManager(Context base,String apkPath,String packageName,String themeStyle){
++        try{
++            ApplicationInfo info=new ApplicationInfo();
++            info.packageName=packageName;
++            info.uid=android.os.Process.myUid();
++            info.sourceDir=info.publicSourceDir=apkPath;
++            info.targetSdkVersion=base.getApplicationInfo().targetSdkVersion;
++            Resources resources=base.getPackageManager().getResourcesForApplication(info);
++            if(resources==null)return null;
++            return new Bundle(resources,themeOf(resources,themeStyle,packageName),"pm");
++        }catch(Throwable ignored){return null;}
++    }
++
++    @SuppressWarnings("deprecation")
++    private static Bundle viaAssetManager(Context base,String apkPath,String packageName,String themeStyle){
++        try{
++            AssetManager assets=AssetManager.class.getConstructor().newInstance();
++            java.lang.reflect.Method add=AssetManager.class.getMethod("addAssetPath",String.class);
++            Object cookie=add.invoke(assets,apkPath);
++            if(cookie instanceof Integer&&((Integer)cookie)==0)return null;
++            Resources resources=newResources(base,assets);
++            return new Bundle(resources,themeOf(resources,themeStyle,packageName),"asset");
++        }catch(Throwable ignored){return null;}
++    }
++
++    /**
++     * 造一个把 ClassLoader 指到应用自己的 Resources。
++     *
++     * 优先用带 ClassLoader 参数的构造器（部分 ROM 保留），失败再退回公开三参
++     * 构造器，然后尝试把 mClassLoader 字段改掉。全失败也返回 Resources：
++     * 资源表本身是好的，只是自定义 drawable 可能解析不了，比整页打不开强。
++     */
++    private static Resources newResources(Context base,AssetManager assets){
++        DisplayMetrics metrics=base.getResources().getDisplayMetrics();
++        Configuration config=new Configuration(base.getResources().getConfiguration());
++        ClassLoader loader=base.getClassLoader();
++        try{
++            Constructor<Resources> constructor=Resources.class.getDeclaredConstructor(
++                AssetManager.class,DisplayMetrics.class,Configuration.class,ClassLoader.class);
++            constructor.setAccessible(true);
++            Resources resources=constructor.newInstance(assets,metrics,config,loader);
++            if(resources!=null)return resources;
++        }catch(Throwable ignored){}
++        Resources resources=new Resources(assets,metrics,config);
++        try{
++            Field field=Resources.class.getDeclaredField("mClassLoader");
++            field.setAccessible(true);
++            field.set(resources,loader);
++        }catch(Throwable ignored){}
++        return resources;
++    }
++
++    private static Resources.Theme themeOf(Resources resources,String themeStyle,String packageName){
++        Resources.Theme theme=resources.newTheme();
++        if(themeStyle==null)return theme;
++        // 不要把宿主 App 的主题 setTo 进来：两套资源表的属性 ID 不同，
++        // 混进来会让 style 里的 ?attr 解析到不存在的资源，Button 之类直接崩。
++        int style=resources.getIdentifier(themeStyle,"style",packageName);
++        if(style==0)style=resources.getIdentifier(themeStyle,"style","*");
++        if(style==0)style=resources.getIdentifier(themeStyle,"style",null);
++        if(style!=0)theme.applyStyle(style,true);
++        return theme;
++    }
++}
